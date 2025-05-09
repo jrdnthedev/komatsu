@@ -24,6 +24,7 @@ export class AppComponent {
 
   send() {
     const message = this.input.value?.trim();
+    const date = new Date();
     if (!message) return;
     this.input.setValue('');
     this.messageSubject.next([
@@ -31,16 +32,17 @@ export class AppComponent {
       {
         content: message,
         role: 'user',
-        createdAt: new Date(),
+        createdAt: date,
       },
     ]);
     this.mockLLMResponse(message).subscribe((response) => {
+      const date = new Date();
       this.messageSubject.next([
         ...this.messageSubject.getValue(),
         {
           content: response,
           role: 'llm',
-          createdAt: new Date(),
+          createdAt: date,
         },
       ]);
     });

@@ -1,3 +1,6 @@
+<header>
+  <h1>{{ title }}</h1>
+</header>
 <main>
   <div id="wrapper">
     <div id="chat-container">
@@ -6,7 +9,7 @@
       }
     </div>
 
-    <form (ngSubmit)="send()" class="input-container">
+    <form (ngSubmit)="send()" id="form-container">
       <input [formControl]="input" placeholder="Ask something..." />
       <button type="submit">Send</button>
     </form>

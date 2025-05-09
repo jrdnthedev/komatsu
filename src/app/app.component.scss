@@ -15,3 +15,22 @@ main {
     gap: 20px;
   }
 }
+
+#form-container {
+  display: flex;
+  input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+  }
+  button {
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
