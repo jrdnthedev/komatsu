@@ -2,35 +2,47 @@ import { Component } from '@angular/core';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChatMessage } from './interface/chat';
-import { delay, Observable, of } from 'rxjs';
+import { BehaviorSubject, delay, Observable, of } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [ChatBubbleComponent, ReactiveFormsModule, FormsModule],
+  imports: [
+    ChatBubbleComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'komatsu';
   input = new FormControl('');
-  messages: ChatMessage[] = [];
+  private messageSubject = new BehaviorSubject<ChatMessage[]>([]);
+  messages$ = this.messageSubject.asObservable();
 
   send() {
     const message = this.input.value?.trim();
     if (!message) return;
     this.input.setValue('');
-    this.messages.push({
-      content: message,
-      role: 'user',
-      createdAt: new Date(),
-    });
-
-    this.mockLLMResponse(message).subscribe((response) => {
-      this.messages.push({
-        content: response,
-        role: 'llm',
+    this.messageSubject.next([
+      ...this.messageSubject.getValue(),
+      {
+        content: message,
+        role: 'user',
         createdAt: new Date(),
-      });
+      },
+    ]);
+    this.mockLLMResponse(message).subscribe((response) => {
+      this.messageSubject.next([
+        ...this.messageSubject.getValue(),
+        {
+          content: response,
+          role: 'llm',
+          createdAt: new Date(),
+        },
+      ]);
     });
   }
 

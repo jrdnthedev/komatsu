@@ -6,5 +6,12 @@ main {
 #wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  #chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    overflow: auto;
+    margin-bottom: 1rem;
+    gap: 20px;
+  }
 }

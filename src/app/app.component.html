@@ -1,9 +1,10 @@
 <main>
   <div id="wrapper">
-    <!-- <app-chat-bubble></app-chat-bubble> -->
-    @for(message of messages; track $index) {
-    <app-chat-bubble [response]="message"></app-chat-bubble>
-    }
+    <div id="chat-container">
+      @for(message of (messages$ | async)!; track $index) {
+      <app-chat-bubble [response]="message"></app-chat-bubble>
+      }
+    </div>
 
     <form (ngSubmit)="send()" class="input-container">
       <input [formControl]="input" placeholder="Ask something..." />
