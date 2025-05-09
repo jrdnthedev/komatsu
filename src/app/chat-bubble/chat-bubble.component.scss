@@ -1,0 +1,34 @@
+.chat-bubble-container {
+  display: flex;
+  gap: 4px;
+}
+
+.avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.chat-details {
+  display: flex;
+  gap: 4px;
+}
+
+.chat-bubble {
+  background-color: #f3f4f6;
+  padding: 1rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.sub-heading {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.heading-l1 {
+  color: #111827;
+  font-size: 0.875rem;
+  font-weight: 600;
+}

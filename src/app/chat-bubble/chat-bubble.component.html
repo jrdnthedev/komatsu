@@ -1,0 +1,28 @@
+<div class="chat-bubble-container">
+  <!-- <img src="" alt="" /> -->
+  <svg
+    class="avatar"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+      clip-rule="evenodd"
+    ></path>
+  </svg>
+
+  <div class="chat-wrapper">
+    <div class="chat-details">
+      <span class="heading-l1">{{ response.role }}</span>
+      <span class="sub-heading">{{ response.createdAt }}</span>
+    </div>
+    <div class="chat-bubble">
+      <p>{{ response.content }}</p>
+    </div>
+    <div class="message-status">
+      <p class="sub-heading">Delivered</p>
+    </div>
+  </div>
+</div>

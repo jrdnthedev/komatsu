@@ -1,0 +1,10 @@
+main {
+  display: flex;
+  justify-content: center;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
