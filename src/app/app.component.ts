@@ -2,7 +2,14 @@ import { Component } from '@angular/core';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChatMessage } from './interface/chat';
-import { BehaviorSubject, delay, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  delay,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environment';
 import { HttpClient } from '@angular/common/http';
@@ -26,6 +33,7 @@ export class AppComponent {
   private messageSubject = new BehaviorSubject<ChatMessage[]>([]);
   messages$ = this.messageSubject.asObservable();
   loading = false;
+  private destroy$ = new Subject<void>();
   constructor(private httpClient: HttpClient) {}
 
   send() {
@@ -42,34 +50,36 @@ export class AppComponent {
       },
     ]);
     this.loading = true;
-    this.mockLLMResponse(message).subscribe({
-      next: (response) => {
-        const date = new Date();
-        this.messageSubject.next([
-          ...this.messageSubject.getValue(),
-          {
-            content: response,
-            role: 'llm',
-            createdAt: date.toLocaleTimeString(),
-          },
-        ]);
-      },
-      error: (error) => {
-        console.error('Error:', error);
-        this.messageSubject.next([
-          ...this.messageSubject.getValue(),
-          {
-            content: 'Error occurred while fetching response.',
-            role: 'llm',
-            createdAt: new Date().toLocaleTimeString(),
-          },
-        ]);
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
+    this.mockLLMResponse(message)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          const date = new Date();
+          this.messageSubject.next([
+            ...this.messageSubject.getValue(),
+            {
+              content: response,
+              role: 'llm',
+              createdAt: date.toLocaleTimeString(),
+            },
+          ]);
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          this.messageSubject.next([
+            ...this.messageSubject.getValue(),
+            {
+              content: 'Error occurred while fetching response.',
+              role: 'llm',
+              createdAt: new Date().toLocaleTimeString(),
+            },
+          ]);
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
   }
 
   mockLLMResponse(prompt: string): Observable<string> {
@@ -78,5 +88,10 @@ export class AppComponent {
         prompt,
       })
       .pipe(map((res) => res.response));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
