@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChatMessage } from './interface/chat';
