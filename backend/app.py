@@ -24,6 +24,7 @@ def chat():
         model= os.environ.get('GENAI_MODEL'),
         contents=[prompt],
     )
+    # mock_response = f"🤖 LLM Response: You said '{prompt}'"
     
     return jsonify({'response': response.text})
 

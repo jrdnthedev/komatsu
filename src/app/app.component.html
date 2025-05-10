@@ -6,7 +6,10 @@
     <div id="chat-container">
       @for(message of (messages$ | async)!; track $index) {
       <app-chat-bubble [response]="message"></app-chat-bubble>
-      }
+      } @if(loading) {<app-loading-spinner
+        text="Awaiting Response..."
+      ></app-loading-spinner
+      >}
     </div>
 
     <form (ngSubmit)="send()" id="form-container">
