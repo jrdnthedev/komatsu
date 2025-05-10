@@ -1,6 +1,7 @@
 .chat-bubble-container {
   display: flex;
   gap: 4px;
+  width: calc(100% - 2rem);
 }
 
 .avatar {
@@ -31,4 +32,10 @@
   color: #111827;
   font-size: 0.875rem;
   font-weight: 600;
+}
+
+@media screen and (min-width: 768px) {
+  .chat-bubble-container {
+    width: 500px;
+  }
 }
