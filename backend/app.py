@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Allow requests from Angular (Cross-Origin)
+CORS(app)
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -12,7 +12,7 @@ def chat():
     if not prompt:
         return jsonify({'error': 'Prompt is required'}), 400
 
-    # Mock response logic (replace with actual LLM logic as needed)
+    
     mock_response = f"🤖 LLM Response: You said '{prompt}'"
 
     return jsonify({'response': mock_response})
