@@ -6,10 +6,12 @@ main {
 #wrapper {
   display: flex;
   flex-direction: column;
+  width: calc(100% - 2rem);
   #chat-container {
     display: flex;
     flex-direction: column;
     height: 400px;
+
     overflow: auto;
     margin-bottom: 1rem;
     gap: 20px;
@@ -32,5 +34,11 @@ main {
     &:hover {
       background-color: #0056b3;
     }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #wrapper {
+    width: 500px;
   }
 }

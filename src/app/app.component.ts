@@ -35,7 +35,7 @@ export class AppComponent {
       {
         content: message,
         role: 'user',
-        createdAt: date,
+        createdAt: date.toLocaleTimeString(),
       },
     ]);
     this.mockLLMResponse(message).subscribe((response) => {
@@ -45,7 +45,7 @@ export class AppComponent {
         {
           content: response,
           role: 'llm',
-          createdAt: date,
+          createdAt: date.toLocaleTimeString(),
         },
       ]);
     });
