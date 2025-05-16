@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChatMessage } from './interface/chat';
 import {
   BehaviorSubject,
+  catchError,
   delay,
   map,
   Observable,
@@ -87,7 +88,10 @@ export class AppComponent {
       .post<{ response: string }>(`${environment.apiUrl}/chat`, {
         prompt,
       })
-      .pipe(map((res) => res.response));
+      .pipe(
+        catchError((_, caught) => caught),
+        map((res) => res.response)
+      );
   }
 
   ngOnDestroy() {
