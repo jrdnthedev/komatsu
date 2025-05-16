@@ -1,10 +1,10 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from google import genai
 from dotenv import load_dotenv
-# from models import db, Message
+from models import db, Message
 
 load_dotenv()
 
@@ -15,10 +15,18 @@ if not key:
 client = genai.Client(api_key=key)
 CORS(app)
 # Load DB URL from environment variable
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///project.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# db = SQLAlchemy(app)
+db = SQLAlchemy(app)
+# db.create_all()
+
+@app.route('/api/messages', methods=['GET'])
+def get_messages():
+    messages = db.session.execute(
+        db.select(Message).order_by(Message.timestamp.desc())
+    ).scalars().all()
+    return jsonify([msg.to_dict() for msg in messages])
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -41,8 +49,8 @@ def chat():
     # )
     # db.session.add(msg)
     # db.session.commit()
-    mock_response = f"🤖 LLM Response: You said '{prompt}'"
-    
+    # mock_response = f"LLM Response: You said '{prompt}'"
+   
     return jsonify({'response': response.text})
 
 if __name__ == '__main__':

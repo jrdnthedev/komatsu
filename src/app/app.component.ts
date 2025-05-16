@@ -5,7 +5,6 @@ import { ChatMessage } from './interface/chat';
 import {
   BehaviorSubject,
   catchError,
-  delay,
   map,
   Observable,
   Subject,
