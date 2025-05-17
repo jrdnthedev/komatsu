@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from google import genai
 from dotenv import load_dotenv
 from models import db, Messages
+import sqlalchemy
 
 load_dotenv()
 
@@ -21,12 +22,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# @app.route('/api/messages', methods=['GET'])
-# def get_messages():
-#     messages = db.session.execute(
-#         db.select(Messages).order_by(Messages.timestamp.desc())
-#     ).scalars().all()
-#     return jsonify([msg.to_dict() for msg in messages])
+@app.route('/api/messages', methods=['GET'])
+def get_messages():
+    messages = db.session.execute(
+        db.select(Messages).order_by(Messages.message_id)
+    ).scalars().all()
+    return jsonify([msg.to_dict() for msg in messages])
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -42,13 +43,16 @@ def chat():
     )
     if not response:
         return jsonify({'error': 'No response from model'}), 500
-    msg = Messages(
-        prompt=prompt,
-        response=response.text,
-        role="user",
-    )
-    db.session.add(msg)
-    db.session.commit()
+    try:
+        msg = Messages(
+            prompt=prompt,
+            response=response.text,
+            role="user",
+        )
+        db.session.add(msg)
+    except sqlalchemy.exc.SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({'error': f'Database error: {str(e)}'}), 500
     # mock_response = f"LLM Response: You said '{prompt}'"
    
     return jsonify({'response': response.text})
