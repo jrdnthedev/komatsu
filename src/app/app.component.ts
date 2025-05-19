@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../environment';
 import { HttpClient } from '@angular/common/http';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { HistoryComponent } from './history/history.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     FormsModule,
     CommonModule,
     LoadingSpinnerComponent,
+    HistoryComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
