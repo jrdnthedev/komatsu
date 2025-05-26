@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, Signal, effect } from '@angular/core';
 import { environment } from '../../../environment';
 import { ChatBubbleComponent } from '../chat-bubble/chat-bubble.component';
+import { HistoryMessage } from '../interface/history';
 
 @Component({
   selector: 'app-history',
@@ -10,7 +11,7 @@ import { ChatBubbleComponent } from '../chat-bubble/chat-bubble.component';
   styleUrl: './history.component.scss',
 })
 export class HistoryComponent {
-  history: any[] = [];
+  history: HistoryMessage[] = [];
   @Input({ required: true }) isOpen!: Signal<boolean>;
   constructor(private httpClient: HttpClient) {
     effect(() => {
@@ -24,8 +25,7 @@ export class HistoryComponent {
     this.httpClient
       .get(`${environment.apiUrl}/messages`)
       .subscribe((response) => {
-        console.log(response);
-        this.history = response as any[];
+        this.history = response as HistoryMessage[];
       });
   }
 }
