@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChatMessage } from './interface/chat';
@@ -36,6 +36,7 @@ export class AppComponent {
   messages$ = this.messageSubject.asObservable();
   loading = false;
   private destroy$ = new Subject<void>();
+  isOpen = signal(false);
   constructor(private httpClient: HttpClient) {}
 
   send() {
@@ -93,6 +94,10 @@ export class AppComponent {
         catchError((_, caught) => caught),
         map((res) => res.response)
       );
+  }
+
+  toggleOpen() {
+    this.isOpen.update((value) => !value);
   }
 
   ngOnDestroy() {

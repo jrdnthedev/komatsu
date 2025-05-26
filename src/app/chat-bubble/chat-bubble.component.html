@@ -14,11 +14,12 @@
 
   <div class="chat-wrapper">
     <div class="chat-details">
-      <span class="heading-l1">{{ response.role }}</span>
-      <span class="sub-heading">{{ response.createdAt }}</span>
+      <span class="heading-l1">
+        <ng-content select=".heading"></ng-content>
+      </span>
     </div>
     <div class="chat-bubble">
-      <p>{{ response.content }}</p>
+      <p><ng-content select=".content"></ng-content></p>
     </div>
     <div class="message-status">
       <p class="sub-heading">Delivered</p>

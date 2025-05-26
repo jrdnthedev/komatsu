@@ -1,0 +1,10 @@
+aside {
+  width: 100%;
+  height: calc(100% - 28px);
+  padding: 20px;
+  background-color: #f0f0f0;
+  & > div {
+    overflow-y: auto;
+    height: 100%;
+  }
+}

@@ -49,6 +49,7 @@ def chat():
             role="user",
         )
         db.session.add(msg)
+        db.session.commit()
     except sqlalchemy.exc.SQLAlchemyError as e:
         db.session.rollback()
         return jsonify({'error': f'Database error: {str(e)}'}), 500

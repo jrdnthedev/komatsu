@@ -1,1 +1,18 @@
-<p>history works!</p>
+<aside>
+  <div>
+    @for(message of history; track $index) {
+    <app-chat-bubble>
+      <span class="heading">{{ message.role }}</span>
+      <div class="content">
+        {{ message.prompt }}
+      </div>
+    </app-chat-bubble>
+    <app-chat-bubble>
+      <span class="heading">llm</span>
+      <div class="content">
+        {{ message.response }}
+      </div>
+    </app-chat-bubble>
+    }
+  </div>
+</aside>

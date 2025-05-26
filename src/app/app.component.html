@@ -1,11 +1,20 @@
 <header>
   <h1>{{ title }}</h1>
+  <button (click)="toggleOpen()">toggle</button>
 </header>
 <main>
   <div id="wrapper">
     <div id="chat-container">
       @for(message of (messages$ | async)!; track $index) {
-      <app-chat-bubble [response]="message"></app-chat-bubble>
+      <app-chat-bubble>
+        <div class="heading">
+          <span class="heading-l1">{{ message.role }}</span>
+          <span class="sub-heading">{{ message.createdAt }}</span>
+        </div>
+        <div class="content">
+          {{ message.content }}
+        </div>
+      </app-chat-bubble>
       } @if(loading) {<app-loading-spinner
         text="Awaiting Response..."
       ></app-loading-spinner
@@ -17,5 +26,11 @@
       <button type="submit">Send</button>
     </form>
   </div>
-  <app-history></app-history>
+  <div id="history-wrapper" [ngClass]="{ open: isOpen() }">
+    <button (click)="toggleOpen()">toggle</button>
+    <app-history [isOpen]="isOpen"></app-history>
+  </div>
 </main>
+@if(isOpen()) {
+<div id="overlay"></div>
+}
