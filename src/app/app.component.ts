@@ -53,7 +53,7 @@ export class AppComponent {
       },
     ]);
     this.loading.set(true);
-    this.mockLLMResponse(message)
+    this.getLLMResponse(message)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -85,7 +85,7 @@ export class AppComponent {
       });
   }
 
-  mockLLMResponse(prompt: string): Observable<string> {
+  getLLMResponse(prompt: string): Observable<string> {
     return this.httpClient
       .post<{ response: string }>(`${environment.apiUrl}/chat`, {
         prompt,
