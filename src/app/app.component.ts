@@ -34,9 +34,9 @@ export class AppComponent {
   input = new FormControl('');
   private messageSubject = new BehaviorSubject<ChatMessage[]>([]);
   messages$ = this.messageSubject.asObservable();
-  loading = false;
+  loading = signal<boolean>(false);
   private destroy$ = new Subject<void>();
-  isOpen = signal(false);
+  isOpen = signal<boolean>(false);
   constructor(private httpClient: HttpClient) {}
 
   send() {
@@ -52,7 +52,7 @@ export class AppComponent {
         createdAt: date.toLocaleTimeString(),
       },
     ]);
-    this.loading = true;
+    this.loading.set(true);
     this.mockLLMResponse(message)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -77,10 +77,10 @@ export class AppComponent {
               createdAt: new Date().toLocaleTimeString(),
             },
           ]);
-          this.loading = false;
+          this.loading.set(false);
         },
         complete: () => {
-          this.loading = false;
+          this.loading.set(false);
         },
       });
   }

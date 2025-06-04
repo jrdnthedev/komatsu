@@ -14,7 +14,7 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 export class HistoryComponent {
   history: HistoryMessage[] = [];
   @Input({ required: true }) isOpen!: Signal<boolean>;
-  isLoading = signal<boolean>(true);
+  isLoading = signal<boolean>(false);
   constructor(private httpClient: HttpClient) {
     effect(() => {
       if (this.isOpen() === true) {

@@ -15,7 +15,7 @@
           {{ message.content }}
         </div>
       </app-chat-bubble>
-      } @if(loading) {<app-loading-spinner
+      } @if(loading()) {<app-loading-spinner
         text="Awaiting Response..."
       ></app-loading-spinner
       >}
