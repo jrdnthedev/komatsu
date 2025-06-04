@@ -4,7 +4,6 @@ import { environment } from '../../../environment';
 import { ChatBubbleComponent } from '../chat-bubble/chat-bubble.component';
 import { HistoryMessage } from '../interface/history';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
-import { Sign } from 'crypto';
 
 @Component({
   selector: 'app-history',
