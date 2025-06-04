@@ -1,6 +1,8 @@
 <aside>
   <div>
-    @for(message of history; track $index) {
+    @if(isLoading()){
+    <app-loading-spinner text="Loading history..."></app-loading-spinner>
+    } @else { @for(message of history; track $index) {
     <app-chat-bubble>
       <span class="heading">{{ message.role }}</span>
       <div class="content">
@@ -13,6 +15,6 @@
         {{ message.response }}
       </div>
     </app-chat-bubble>
-    }
+    } }
   </div>
 </aside>

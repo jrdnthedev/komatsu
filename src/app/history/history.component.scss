@@ -1,10 +1,14 @@
 aside {
   width: 100%;
+  min-width: 300px;
   height: calc(100% - 28px);
+  display: flex;
+  justify-content: center;
   padding: 20px;
   background-color: #f0f0f0;
   & > div {
     overflow-y: auto;
     height: 100%;
+    align-content: center;
   }
 }
