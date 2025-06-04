@@ -1,3 +1,4 @@
+""" Flask application for handling chat requests and storing messages in a database. """
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -23,6 +24,7 @@ db = SQLAlchemy(app)
 
 @app.route('/api/messages', methods=['GET'])
 def get_messages():
+    """Fetch all messages from the database."""
     messages = db.session.execute(
         db.select(Messages).order_by(Messages.message_id)
     ).scalars().all()
@@ -30,6 +32,7 @@ def get_messages():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
+    """Endpoint to handle chat requests."""
     data = request.get_json()
     prompt = data.get('prompt')
 
@@ -53,8 +56,6 @@ def chat():
     except sqlalchemy.exc.SQLAlchemyError as e:
         db.session.rollback()
         return jsonify({'error': f'Database error: {str(e)}'}), 500
-    # mock_response = f"LLM Response: You said '{prompt}'"
-   
     return jsonify({'response': response.text})
 
 if __name__ == '__main__':
